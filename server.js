@@ -35,6 +35,7 @@ var fs = require('fs');
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-var server=app.listen(port,function() {
-	console.log("app running on port 8080"); });
+const PORT = process.env.PORT || 8080;
+app.listen(PORT,() => {
+	console.log(`server is running on port ${PORT}.`); });
 
