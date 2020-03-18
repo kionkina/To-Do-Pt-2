@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<style>
+.remove{
+	background-color: rgb(236, 170, 170);
+	font-size: 7px;
+	cursor: grab;
+	height: "10px";
+}
+
+.task{
+
+	display: inline;
+
+
+}
+
+
+</style>
+
+<script>
+
+function deleteTask(id){
+	console.log("RUNNING DELETE TASK");
+	console.log(id);
+	httpPostAsync("/delete_user_task", id);
+}
+
+function toggle(id, new_val){
+	console.log("RUNNING TOGGLE TASK");
+	console.log(id);
+	console.log(new_val);
+	httpPostAsync("/toggle_task_complete", id, new_val);
+
+}
+
+
+function httpPostAsync(theUrl, id, completed) 
+{
+	console.log(completed);
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.onreadystatechange = function() { 
+        if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+          location.reload();
+	}
+    xmlHttp.open("POST", theUrl, true); // true for asynchronous 
+	xmlHttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+	if (completed != undefined){
+		console.log("sending post request");
+		xmlHttp.send("id="+id+"&completed="+completed);
+	}
+	else {
+	
+    xmlHttp.send("id=" + id);
+	}
+}
+
+</script>
+
+</head>
+
+<body>
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">Jello</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li class="active"><a href="#">Home</a></li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <li><a href="logout"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+    </ul>
+  </div>
+</nav>
+
+
+<center>
+
+ <img src="img/logo.png" style="width:300px;"> </img>
+
+<br><br>
+<h3>Welcome {{username}}, your list looks like this: </h3> <br><br>
+
+<div id="task_container">
+{{#each list}}
+
+{{#unless this.deleted}}
+
+{{#if this.completed}}
+
+	<button onclick='toggle({{this.id}}, false)' type="button" class="btn btn-default btn-xs " style='text-decoration:line-through; display:inline-block; width:200px;'>
+	
+	{{this.content}} 
+	</button>
+	
+	
+
+{{else}}
+	<button onclick='toggle({{this.id}}, true)' type="button" class="btn btn-default btn-xs " style='text-decoration:none; display:inline-block; width:200px;'>
+	{{this.content}}
+	</button>
+	
+
+{{/if}}
+
+
+         <button type="button" class="btn btn-default btn-xs" onclick=deleteTask({{this.id}})>
+          <span class="glyphicon glyphicon-remove"></span> 
+        </button> <br>
+	</div>
+{{/unless}}
+{{/each}}
+
+</div>
+
+
+<br>
+<form id="add" action="/addTask" method="POST">
+<div class="form-group">
+<input id="new_task" name="new_task"  class="form-control" style="width:200px; display:inline-block">   </input>
+<button type="submit" class="btn btn-default btn-sm" style="height:32px;"> Add Task </button>
+</div>
+</form>
+
+
+</center>
+</body>
+
+</html>
