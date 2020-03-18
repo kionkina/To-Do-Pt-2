@@ -4,7 +4,7 @@ var path = require('path');
 var hbs = require('express-handlebars');
 var bodyParser = require('body-parser');
 var mysql      = require('mysql');
-var connection = mysql.createConnection({
+var connection = mysql.createPool({
 	host     : 'us-cdbr-iron-east-04.cleardb.net',
 	user     : 'bda98a86a56861',
 	password : '0ac4df32',
