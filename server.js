@@ -4,15 +4,9 @@ var path = require('path');
 var hbs = require('express-handlebars');
 var bodyParser = require('body-parser');
 var mysql      = require('mysql');
-var connection = mysql.createPool({
-	host     : 'us-cdbr-iron-east-04.cleardb.net',
-	user     : 'bda98a86a56861',
-	password : '0ac4df32',
-	database : 'heroku_15946f295931605'
-    });
-
-connection.connect();
-global.db = connection;
+var db = require('./database');
+//connection.connect();
+global.db = db;
 
 app.use(bodyParser.urlencoded({ extended: false }));
 const cookieParser = require('cookie-parser');
