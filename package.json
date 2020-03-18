@@ -6,9 +6,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "axios": "^0.19.2",
-    "axios-cookiejar-support": "^0.5.1",
-    "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "cookie-client": "0.0.3",
     "cookie-parser": "^1.4.4",
@@ -20,13 +17,8 @@
     "express-session": "^1.17.0",
     "http": "0.0.0",
     "https": "^1.0.0",
-    "jsonwebtoken": "^8.5.1",
     "mysql": "^2.18.1",
-    "node-fetch": "^2.6.0",
-    "passport": "^0.4.1",
     "react-cookie": "^4.0.3",
     "request": "^2.88.2",
-    "tough-cookie": "^3.0.1",
-    "uuid": "^3.4.0"
   }
 }
