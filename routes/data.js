@@ -1,8 +1,5 @@
-const fs = require("fs");
-const readFile = fs.readFile;
-const writeFile = fs.writeFile;
+
 var path = require('path');
-const axios = require('axios');
 const cookieConfig = {
     httpOnly: true, // to disable accessing cookie via client side js
     //secure: true, // to force https (if you use it)
@@ -15,109 +12,6 @@ const dataRoutes = (app, fs) => {
    
 
 
-    const toggleTask = (id, res, encoding = 'utf8') => {
-        readFile(path.join(__dirname,'../data.json'),  'utf8', (err, data) => {
-            if (err) {
-                throw err;
-            }
-    
-            var taskArray = JSON.parse(data);
-            
-            console.log("STATE OF THIS ID: ");
-            console.log(taskArray[id]["completed"]); 
-
-            console.log("SETTING STATE OF THIS ID TO: ");
-            console.log(!(taskArray[id]["completed"])); 
-
-            taskArray[id]["completed"] = !(taskArray[id]["completed"]);
-
-            writeFile(path.join(__dirname,'../data.json'), JSON.stringify(taskArray), encoding, (err) => {
-            if (err) {
-                throw err;
-            }
-            console.log("added data");
-            res.send(JSON.parse(data));
-        });
-    });
-
-}
-
-
-const deleteTask = (id, res, encoding = 'utf8') => {
-    readFile(path.join(__dirname,'../data.json'),  'utf8', (err, data) => {
-        if (err) {
-            throw err;
-        }
-
-        var taskArray = JSON.parse(data);
-        taskArray.splice(id, 1);
-
-        writeFile(path.join(__dirname,'../data.json'), JSON.stringify(taskArray), encoding, (err) => {
-        if (err) {
-            throw err;
-        }
-        console.log("added data");
-        res.send(JSON.parse(data));
-    });
-});
-
-}
-    
-
-app.get('/data', (req, res) => {
-    console.log("Running /data");
-       readFile(path.join(__dirname,'../data.json'),  'utf8', (err, data) => {
-        if (err) {
-            throw err;
-        }
-        res.send(JSON.parse(data));
-    });
-});
-
-app.post('/toggle_complete', (req, res) => {
-    var taskId = req.body.id;
-    toggleTask(taskId, res);
-});
-
-app.post('/delete_task', (req, res) => {
-    var taskId = req.body.id;
-    deleteTask(taskId, res);
-});
-
-
-
-
-
-app.post('/add', (req, res) => {
-        var newTask = req.body.new_task.toString();
-        console.log(newTask);
-
-        var toAdd = {}
-        toAdd["name"] = newTask;
-        toAdd["completed"] = false;
-        
-        readFile(path.join(__dirname,'../data.json'),  'utf8', (err, data) => {
-                if (err) {
-                    throw err;
-                }
-        
-                var taskArray = JSON.parse(data);
-                taskArray.push(toAdd);
-    
-                writeFile(path.join(__dirname,'../data.json'), JSON.stringify(taskArray), 'utf8', (err) => {
-                if (err) {
-                    throw err;
-                }
-                console.log("added data");
-           
-                res.redirect('/part1c-d');
-            });
-        });
-        
-      
-    });
-
-
 app.post('/addTask', (req, res) => {
     console.log("HERE");
     var task = req.body.new_task;
@@ -127,8 +21,6 @@ app.post('/addTask', (req, res) => {
         if (err){
             console.log(err);
         }
-        console.log("RESULT:");
-        console.log(result);
         res.redirect('/home');
      });
 
@@ -163,8 +55,8 @@ app.post('/addUser', (req, res) => {
                     if (err){
                         console.log(err);
                     }
-                    console.log("RESULT:");
-                    console.log(result);
+                    //console.log("RESULT:");
+                    //console.log(result);
                     res.redirect("/login?msg=Successfully+added+user.");
                  });
             }
@@ -230,7 +122,7 @@ app.post('/addUser', (req, res) => {
         }
         else {
             list = result;
-            console.log(result);
+            //console.log(result);
             res.render("home", {layout: "userTasks",  list:list, username:username});
         }
         }) //end else

@@ -5,10 +5,10 @@ var hbs = require('express-handlebars');
 var bodyParser = require('body-parser');
 var mysql      = require('mysql');
 var connection = mysql.createConnection({
-	host     : 'localhost',
-	user     : 'root',
-	password : 'pass',
-	database : 'test'
+	host     : 'us-cdbr-iron-east-04.cleardb.net',
+	user     : 'bda98a86a56861',
+	password : '0ac4df32',
+	database : 'heroku_15946f295931605'
     });
 
 connection.connect();
